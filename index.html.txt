@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesina Animata | Sean Parisi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF4D79;
+            --secondary: #2EC4B6;
+            --accent: #FF9F1C;
+            --dark: #011627;
+            --light: #FDFFFC;
+            --html: #E44D26;
+            --css: #2965F1;
+            --js: #F7DF1E;
+            --php: #777BB3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animazioni */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pulse {
+            animation: pulse 3s ease infinite;
+        }
+
+        .slide-in {
+            animation: slideIn 1s ease forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(1,22,39,0.9) 0%, rgba(46,196,182,0.3) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .hero h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255,79,121,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--light);
+            font-size: 2rem;
+            animation: float 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        /* Nav */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(1,22,39,0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Righteous', cursive;
+            font-size: 1.8rem;
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Sezioni */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-family: 'Righteous', cursive;
+            font-size: 3rem;
+            color: var(--light);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px 30px;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+
+        .html-card::before {
+            background: var(--html);
+        }
+
+        .css-card::before {
+            background: var(--css);
+        }
+
+        .js-card::before {
+            background: var(--js);
+        }
+
+        .php-card::before {
+            background: var(--php);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .html-card .card-icon {
+            color: var(--html);
+        }
+
+        .css-card .card-icon {
+            color: var(--css);
+        }
+
+        .js-card .card-icon {
+            color: var(--js);
+        }
+
+        .php-card .card-icon {
+            color: var(--php);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .card p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        /* Analogie */
+        .analogy {
+            background: rgba(255, 157, 28, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 4px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analogy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            z-index: -1;
+            opacity: 0.05;
+        }
+
+        .analogy h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analogy h4 i {
+            font-size: 1.8rem;
+        }
+
+        /* Demo */
+        .demo-container {
+            background: rgba(46, 196, 182, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            border: 1px dashed var(--secondary);
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-title i {
+            font-size: 1.8rem;
+        }
+
+        .demo-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: var(--light);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,79,121,0.3);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,79,121,0.4);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        /* Tabella */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(255, 79, 121, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, #000 100%);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-family: 'Righteous', cursive;
+            font-size: 2rem;
+            color: var(--light);
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* Effetti particelle */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <div class="container nav-container">
+            <a href="#" class="logo">Sean<span>Parisi</span></a>
+            <div class="nav-links">
+                <a href="#intro">Introduzione</a>
+                <a href="#linguaggi">Linguaggi</a>
+                <a href="#confronto">Confronto</a>
+                <a href="#importanza">Importanza</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="container">
+            <h1 class="floating">Programmazione Web</h1>
+            <p class="fade-in">Esploriamo insieme i linguaggi che danno vita a Internet</p>
+            <a href="#intro" class="scroll-down pulse">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Introduzione -->
+    <section id="intro" class="fade-in">
+        <div class="container">
+            <div class="section-title">
+                <h2>Cos'è la Programmazione Web?</h2>
+                <p>L'arte di creare esperienze digitali attraverso linguaggi specializzati</p>
+            </div>
+
+            <div class="analogy">
+                <h4><i class="fas fa-lightbulb"></i> Facciamo un paragone...</h4>
+                <p>Creare un sito web è come costruire una casa:</p>
+                <div class="cards-container" style="margin-top: 30px;">
+                    <div class="card slide-in" style="animation-delay: 0.1s;">
+                        <i class="fab fa-html5 card-icon"></i>
+                        <h3>HTML</h3>
+                        <p>La struttura (muri, porte, finestre)</p>
+                    </div>
+                    <div class="card slide-in" style="animation-delay: 0.3s;">
+                        <i class="fab fa-css3-alt card-icon"></i>
+                        <h3>CSS</h3>
+                        <p>L'arredamento e la vernice</p>
+                    </div>
+                    <div class="card slide-in" style="animation-delay: 0.5s;">
+                        <i class="fab fa-js-square card-icon"></i>
+                        <h3>JavaScript</h3>
+                        <p>Gli interruttori e gli elettrodomestici</p>
+                    </div>
+                    <div class="card slide-in" style="animation-delay: 0.7s;">
+                        <i class="fab fa-php card-icon"></i>
+                        <h3>PHP</h3>
+                        <p>Gli impianti nascosti</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Linguaggi -->
+    <section id="linguaggi" style="background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover; background-attachment: fixed;">
+        <div class="container">
+            <div class="section-title">
+                <h2>I Linguaggi Fondamentali</h2>
+                <p>Gli strumenti essenziali per costruire il web moderno</p>
+            </div>
+
+            <div class="cards-container">
+                <!-- HTML Card -->
+                <div class="card html-card slide-in" style="animation-delay: 0.1s;">
+                    <i class="fab fa-html5 card-icon"></i>
+                    <h3>HTML</h3>
+                    <p>L'HTML (HyperText Markup Language) è lo scheletro di ogni pagina web. Definisce la struttura e il contenuto.</p>
+
+                    <div class="demo-container">
+                        <div class="demo-title">
+                            <i class="fas fa-laptop-code"></i> Esempio Base
+                        </div>
+                        <pre style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; overflow-x: auto;">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Il Mio Sito&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Ciao Mondo!&lt;/h1&gt;
+    &lt;p&gt;Questo è un paragrafo.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                    </div>
+                </div>
+
+                <!-- CSS Card -->
+                <div class="card css-card slide-in" style="animation-delay: 0.3s;">
+                    <i class="fab fa-css3-alt card-icon"></i>
+                    <h3>CSS</h3>
+                    <p>Il CSS (Cascading Style Sheets) è ciò che rende bello il web. Controlla layout, colori, animazioni e molto altro.</p>
+
+                    <div class="demo-container">
+                        <div class="demo-title">
+                            <i class="fas fa-paint-brush"></i> Prova CSS
+                        </div>
+                        <div class="demo-content">
+                            <p id="cssDemoText" style="padding: 15px; background: rgba(0,0,0,0.2); border-radius: 5px; flex-grow: 1;">Prova a cambiare il mio stile!</p>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button onclick="document.getElementById('cssDemoText').style.color='#FF4D79'">Rosso</button>
+                                <button onclick="document.getElementById('cssDemoText').style.fontSize='24px'">Grande</button>
+                                <button onclick="document.getElementById('cssDemoText').style.fontWeight='bold'">Grassetto</button>
+                         
